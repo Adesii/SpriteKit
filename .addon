@@ -1,0 +1,14 @@
+{
+  "Title": "SpriteKit",
+  "Type": "game",
+  "Org": "local",
+  "Ident": "spritekit",
+  "Schema": 1,
+  "HasAssets": true,
+  "AssetsPath": "",
+  "ResourcePaths": null,
+  "HasCode": true,
+  "CodePath": "/code/",
+  "RootNamespace": "SpriteKit",
+  "Metadata": {}
+}
