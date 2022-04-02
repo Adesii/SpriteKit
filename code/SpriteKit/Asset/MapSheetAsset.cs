@@ -18,6 +18,7 @@ public class MapSheetAsset : AreaAsset<MapSheetArea>
 		{
 			area.LoadTextures();
 			BlockList[area.Name.ToLower()] = area;
+			Event.Run( "MapArea.Loaded", area );
 		}
 	}
 	protected override void PostReload()
@@ -32,6 +33,7 @@ public class MapSheetAsset : AreaAsset<MapSheetArea>
 		{
 			area.LoadTextures();
 			BlockList[area.Name.ToLower()] = area;
+			Event.Run( "MapArea.Loaded", area );
 		}
 	}
 	public static MapSheetArea GetBlockArea( string name )

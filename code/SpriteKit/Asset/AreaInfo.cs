@@ -13,14 +13,41 @@ public class AreaInfo
 
 	[ResourceType( "img" )]
 	public string SpriteSheetPath { get; set; }
+	[ResourceType( "img" )]
+	public string SpriteSheetAlphaPath { get; set; }
 
 	[ResourceType( "img" )]
 	public string SpriteSheetNormalPath { get; set; }
 
 	[Skip]
 	public static Dictionary<string, Texture> TextureList = new();
-	public Texture SpriteSheetTexture => TextureList[SpriteSheetPath];
-	public Texture SpriteSheetNormalTexture => TextureList[SpriteSheetNormalPath];
+	public Texture SpriteSheetTexture
+	{
+		get
+		{
+			if ( string.IsNullOrEmpty( SpriteSheetPath ) )
+				return null;
+			return TextureList[SpriteSheetPath];
+		}
+	}
+	public Texture SpriteSheetNormalTexture
+	{
+		get
+		{
+			if ( string.IsNullOrEmpty( SpriteSheetNormalPath ) )
+				return null;
+			return TextureList[SpriteSheetNormalPath];
+		}
+	}
+	public Texture SpriteSheetAlphaTexture
+	{
+		get
+		{
+			if ( string.IsNullOrEmpty( SpriteSheetAlphaPath ) )
+				return null;
+			return TextureList[SpriteSheetAlphaPath];
+		}
+	}
 
 	public virtual void LoadTextures()
 	{
@@ -28,6 +55,13 @@ public class AreaInfo
 		var SpriteSheetTexture = Sandbox.TextureLoader.Image.Load( FileSystem.Mounted, SpriteSheetPath, true );
 		if ( !TextureList.ContainsKey( SpriteSheetPath ) )
 			TextureList.Add( SpriteSheetPath, SpriteSheetTexture );
+		if ( !string.IsNullOrEmpty( SpriteSheetAlphaPath ) )
+		{
+			var SpriteSheetAlphaTexture = Sandbox.TextureLoader.Image.Load( FileSystem.Mounted, SpriteSheetAlphaPath, true );
+			if ( !TextureList.ContainsKey( SpriteSheetAlphaPath ) )
+				TextureList.Add( SpriteSheetAlphaPath, SpriteSheetAlphaTexture );
+		}
+
 		if ( !string.IsNullOrEmpty( SpriteSheetNormalPath ) )
 		{
 			var SpriteSheetNormalTexture = Sandbox.TextureLoader.Image.Load( FileSystem.Mounted, SpriteSheetNormalPath, false );

@@ -90,6 +90,7 @@ public class SpriteSceneObject : SceneCustomObject
 		Render.Attributes.Set( "Facing", Facing == FacingDirection.Right ? 1f : -1f );
 		Render.Attributes.Set( "TintColor", (Vector3)TintColor );
 		Render.Attributes.Set( "TintAmount", TintAmount );
+		Render.Attributes.Set( "SpritePivot", _parent.Position + Vector3.Up * SpriteViewport.height );
 
 		Render.Attributes.SetCombo( "D_HAS_NORMALS", currentone.SpriteSheetNormalTexture != null );
 		Render.Attributes.Set( "SpriteSheetNormalMap", currentone.SpriteSheetNormalTexture );

@@ -7,4 +7,6 @@ public class MapSheetArea : AreaInfo
 	public string MapBlendPath { get; set; }
 
 	public string MapBlendNormalPath { get; set; }
+
+	public int BlockID { get; set; } = -1;
 }
