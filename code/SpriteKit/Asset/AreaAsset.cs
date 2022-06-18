@@ -1,9 +1,13 @@
+using System.Collections.Generic;
+using Sandbox;
+
 namespace SpriteKit.Asset;
 
-public class AreaAsset<T> : Sandbox.Asset where T : AreaInfo
+public class AreaAsset<T> : GameResource where T : AreaInfo
 {
+	public static Dictionary<string, GameResource> All = new();
 	public List<T> SpriteAreas { get; set; } = new();
-	[Skip]
+	[HideInEditor]
 	public Dictionary<string, T> SpriteAreasByName = new();
 
 
@@ -18,6 +22,8 @@ public class AreaAsset<T> : Sandbox.Asset where T : AreaInfo
 			area.LoadTextures();
 			SpriteAreasByName[area.Name.ToLower()] = area;
 		}
+
+		All[Path.ToLower().NormalizeFilename()] = this;
 	}
 	protected override void PostReload()
 	{
@@ -28,6 +34,6 @@ public class AreaAsset<T> : Sandbox.Asset where T : AreaInfo
 			area.LoadTextures();
 			SpriteAreasByName[area.Name.ToLower()] = area;
 		}
-		Event.Run( "spriteassets_changed", Id );
+		Event.Run( "spriteassets_changed", ResourceId );
 	}
 }

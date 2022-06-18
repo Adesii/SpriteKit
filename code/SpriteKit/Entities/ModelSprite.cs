@@ -1,3 +1,4 @@
+using System.Linq;
 using Sandbox;
 using SpriteKit.Asset;
 using SpriteKit.SceneObjects;
@@ -66,7 +67,7 @@ public partial class ModelSprite : Entity
 		Transmit = TransmitType.Always;
 		if ( !string.IsNullOrEmpty( SpritePath ) )
 		{
-			SpriteAsset = SpriteAsset.FromPath<SpriteAsset>( SpritePath.NormalizeFilename() );
+			SpriteAsset = SpriteAsset.Get<SpriteAsset>( SpritePath.NormalizeFilename() );
 		}
 	}
 
@@ -75,7 +76,7 @@ public partial class ModelSprite : Entity
 		if ( IsClient ) return;
 		if ( !string.IsNullOrEmpty( SpritePath ) )
 		{
-			SpriteAsset = SpriteAsset.FromPath<SpriteAsset>( SpritePath.NormalizeFilename() );
+			SpriteAsset = SpriteAsset.Get<SpriteAsset>( SpritePath.NormalizeFilename() );
 		}
 	}
 	public override void ClientSpawn()
@@ -99,7 +100,7 @@ public partial class ModelSprite : Entity
 			SpriteSceneObject.Init();
 		}
 	}
-	[ClientCmd]
+	[ConCmd.Client]
 	public static void RebuildSprites()
 	{
 		foreach ( var item in Entity.All.OfType<ModelSprite>() )
@@ -110,7 +111,7 @@ public partial class ModelSprite : Entity
 	[Event( "spriteassets_changed" )]
 	protected void DetectSpriteChange( int id )
 	{
-		if ( SpriteAsset == null || id == SpriteAsset.Id )
+		if ( SpriteAsset == null || id == SpriteAsset.ResourceId )
 		{
 			SpriteChange();
 		}
@@ -175,7 +176,7 @@ public partial class ModelSprite : Entity
 			DeleteThis( this.NetworkIdent );
 		}
 	}
-	[ServerCmd]
+	[ConCmd.Server]
 	private static void DeleteThis( int entityid )
 	{
 		FindByIndex( entityid )?.Delete();

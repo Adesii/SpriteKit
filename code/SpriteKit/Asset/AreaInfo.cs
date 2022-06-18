@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Sandbox;
 
 namespace SpriteKit.Asset;
 
@@ -19,7 +20,7 @@ public class AreaInfo
 	[ResourceType( "img" )]
 	public string SpriteSheetNormalPath { get; set; }
 
-	[Skip]
+	[HideInEditor]
 	public static Dictionary<string, Texture> TextureList = new();
 	public Texture SpriteSheetTexture
 	{

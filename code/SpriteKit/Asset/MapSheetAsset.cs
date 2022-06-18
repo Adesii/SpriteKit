@@ -1,8 +1,11 @@
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
+using Sandbox;
 
 namespace SpriteKit.Asset;
 
-[Library( "m_sprite" ), AutoGenerate]
+[Library( "msprite" )]
+[GameResource( "Map Sprite Asset", "msprite", "" )]
 public class MapSheetAsset : AreaAsset<MapSheetArea>
 {
 	public static Dictionary<string, MapSheetArea> BlockList = new();
