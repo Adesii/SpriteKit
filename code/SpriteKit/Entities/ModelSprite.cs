@@ -16,6 +16,8 @@ public partial class ModelSprite : Entity
 
 	private SpriteSceneObject SpriteSceneObject;
 	public SpriteSceneObject SceneObject => SpriteSceneObject;
+
+	public SceneWorld TargetSceneWorld { get; set; }
 	public enum TrackingMode
 	{
 		Billboard,
@@ -128,7 +130,7 @@ public partial class ModelSprite : Entity
 		else
 		{
 			if ( SpriteAsset != null )
-				SpriteSceneObject = new( Map.Scene, this );
+				SpriteSceneObject = new( TargetSceneWorld.IsValid() ? TargetSceneWorld : Map.Scene, this );
 		}
 	}
 
