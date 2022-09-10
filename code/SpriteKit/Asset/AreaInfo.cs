@@ -13,12 +13,12 @@ public class AreaInfo
 	public Color AreaColor { get; set; } = Color.Random;
 	public float FrameRate { get; set; } = 12f;
 
-	[ResourceType( "img" )]
+	[ResourceType( "png" )]
 	public string SpriteSheetPath { get; set; }
-	[ResourceType( "img" )]
+	[ResourceType( "png" )]
 	public string SpriteSheetAlphaPath { get; set; }
 
-	[ResourceType( "img" )]
+	[ResourceType( "png" )]
 	public string SpriteSheetNormalPath { get; set; }
 
 	public static Dictionary<string, Texture> TextureList = new();
