@@ -14,7 +14,7 @@ public class AreaAsset<T> : GameResource where T : AreaInfo
 	protected override void PostLoad()
 	{
 		base.PostLoad();
-		Log.Info( $"Loading sprite asset {Name}" );
+		Log.Info( $"Loading sprite asset {ResourceName}" );
 
 
 		foreach ( var area in SpriteAreas )
@@ -23,12 +23,12 @@ public class AreaAsset<T> : GameResource where T : AreaInfo
 			SpriteAreasByName[area.Name.ToLower()] = area;
 		}
 
-		All[Path.ToLower().NormalizeFilename()] = this;
+		All[ResourcePath.ToLower().NormalizeFilename()] = this;
 	}
 	protected override void PostReload()
 	{
 		base.PostReload();
-		Log.Info( $"Reloading sprite asset {Name}" );
+		Log.Info( $"Reloading sprite asset {ResourceName}" );
 		foreach ( var area in SpriteAreas )
 		{
 			area.LoadTextures();

@@ -16,7 +16,7 @@ public class MapSheetAsset : AreaAsset<MapSheetArea>
 			BlockList = new();
 		}
 
-		Log.Info( $"Loading Map asset {Name}" );
+		Log.Info( $"Loading Map asset {ResourceName}" );
 		foreach ( var area in SpriteAreas )
 		{
 			area.LoadTextures();
@@ -31,7 +31,7 @@ public class MapSheetAsset : AreaAsset<MapSheetArea>
 			BlockList = new();
 		}
 
-		Log.Info( $"Reloading Map asset {Name}" );
+		Log.Info( $"Reloading Map asset {ResourceName}" );
 		foreach ( var area in SpriteAreas )
 		{
 			area.LoadTextures();

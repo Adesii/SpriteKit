@@ -9,6 +9,7 @@ public class AreaInfo
 	public Rect Area { get; set; }
 	public float XSubdivisions { get; set; }
 	public float YSubdivisions { get; set; }
+	[HideInEditor]
 	public Color AreaColor { get; set; } = Color.Random;
 	public float FrameRate { get; set; } = 12f;
 
@@ -20,8 +21,8 @@ public class AreaInfo
 	[ResourceType( "img" )]
 	public string SpriteSheetNormalPath { get; set; }
 
-	[HideInEditor]
 	public static Dictionary<string, Texture> TextureList = new();
+	[HideInEditor]
 	public Texture SpriteSheetTexture
 	{
 		get
@@ -31,6 +32,7 @@ public class AreaInfo
 			return TextureList[SpriteSheetPath];
 		}
 	}
+	[HideInEditor]
 	public Texture SpriteSheetNormalTexture
 	{
 		get
@@ -40,6 +42,7 @@ public class AreaInfo
 			return TextureList[SpriteSheetNormalPath];
 		}
 	}
+	[HideInEditor]
 	public Texture SpriteSheetAlphaTexture
 	{
 		get
