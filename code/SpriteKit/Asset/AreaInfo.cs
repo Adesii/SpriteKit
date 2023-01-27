@@ -27,9 +27,13 @@ public class AreaInfo
 	{
 		get
 		{
-			if ( string.IsNullOrEmpty( SpriteSheetPath ) )
-				return null;
-			return TextureList[SpriteSheetPath];
+			//if ( !string.IsNullOrEmpty( SpriteSheetPath ) && !TextureList.ContainsKey( SpriteSheetPath ) )
+			LoadTextures();
+			if ( TextureList.TryGetValue( SpriteSheetPath, out Texture val ) )
+			{
+				return val;
+			}
+			return null;
 		}
 	}
 	[HideInEditor]
@@ -37,9 +41,11 @@ public class AreaInfo
 	{
 		get
 		{
-			if ( string.IsNullOrEmpty( SpriteSheetNormalPath ) )
-				return null;
-			return TextureList[SpriteSheetNormalPath];
+			//if ( !string.IsNullOrEmpty( SpriteSheetNormalPath ) && !TextureList.ContainsKey( SpriteSheetNormalPath ) )
+			LoadTextures();
+			if ( TextureList.TryGetValue( SpriteSheetNormalPath, out Texture val ) )
+				return val;
+			return null;
 		}
 	}
 	[HideInEditor]
@@ -47,30 +53,29 @@ public class AreaInfo
 	{
 		get
 		{
-			if ( string.IsNullOrEmpty( SpriteSheetAlphaPath ) )
-				return null;
-			return TextureList[SpriteSheetAlphaPath];
+			//if ( !string.IsNullOrEmpty( SpriteSheetAlphaPath ) && !TextureList.ContainsKey( SpriteSheetAlphaPath ) )
+			LoadTextures();
+			if ( TextureList.TryGetValue( SpriteSheetAlphaPath, out Texture val ) )
+				return val;
+			return null;
 		}
 	}
 
 	public virtual void LoadTextures()
 	{
 		var textures = new Dictionary<string, Texture>();
-		var SpriteSheetTexture = Sandbox.TextureLoader.Image.Load( FileSystem.Mounted, SpriteSheetPath, true );
-		if ( !TextureList.ContainsKey( SpriteSheetPath ) )
-			TextureList.Add( SpriteSheetPath, SpriteSheetTexture );
+		var SpriteSheetTexture = Texture.Load( FileSystem.Mounted, SpriteSheetPath, true );
+		TextureList[SpriteSheetPath] = SpriteSheetTexture;
 		if ( !string.IsNullOrEmpty( SpriteSheetAlphaPath ) )
 		{
-			var SpriteSheetAlphaTexture = Sandbox.TextureLoader.Image.Load( FileSystem.Mounted, SpriteSheetAlphaPath, true );
-			if ( !TextureList.ContainsKey( SpriteSheetAlphaPath ) )
-				TextureList.Add( SpriteSheetAlphaPath, SpriteSheetAlphaTexture );
+			var SpriteSheetAlphaTexture = Texture.Load( FileSystem.Mounted, SpriteSheetAlphaPath, true );
+			TextureList[SpriteSheetAlphaPath] = SpriteSheetAlphaTexture;
 		}
 
 		if ( !string.IsNullOrEmpty( SpriteSheetNormalPath ) )
 		{
-			var SpriteSheetNormalTexture = Sandbox.TextureLoader.Image.Load( FileSystem.Mounted, SpriteSheetNormalPath, false );
-			if ( !TextureList.ContainsKey( SpriteSheetNormalPath ) )
-				TextureList.Add( SpriteSheetNormalPath, SpriteSheetNormalTexture );
+			var SpriteSheetNormalTexture = Texture.Load( FileSystem.Mounted, SpriteSheetNormalPath, false );
+			TextureList[SpriteSheetNormalPath] = SpriteSheetNormalTexture;
 		}
 	}
 }

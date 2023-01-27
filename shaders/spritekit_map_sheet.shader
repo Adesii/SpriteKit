@@ -110,7 +110,7 @@ PS
 	//
 	// Main
 	//
-	PixelOutput MainPs( PixelInput i )
+	float4 MainPs(PixelInput i) : SV_Target0
 	{
 		float2 spriteStartUV = i.vUVData.xy;
 		float2 spriteEndVU = i.vUVData.zw;
@@ -151,8 +151,8 @@ PS
 
 		
 		
-		PixelOutput po = FinalizePixelMaterial( i, b );
-		po.vColor.a = Albedo.a;
+		float4 po = FinalizePixelMaterial( i, b );
+		po.a = Albedo.a;
 		return po;
 	}
 }

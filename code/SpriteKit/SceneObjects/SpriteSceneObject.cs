@@ -1,6 +1,7 @@
 using Sandbox;
 using SpriteKit.Asset;
 using SpriteKit.Entities;
+using SpriteKit.Player;
 using static SpriteKit.Entities.ModelSprite;
 
 namespace SpriteKit.SceneObjects;
@@ -9,7 +10,7 @@ public class SpriteSceneObject : SceneCustomObject
 {
 	private SpriteAsset _spriteAsset => _parent?.SpriteAsset;
 	private ModelSprite _parent;
-	public static Material SpriteMaterial = Material.Create( "SpriteMaterial", "spritekit_sprite" );
+	public Material SpriteMaterial = Material.FromShader( "code/systems/spritekit/shaders/spritekit_sprite.shader" );
 	private VertexBuffer VertexBuffer;
 	private SpriteArea currentone;
 	private SpriteArea _spriteArea
@@ -30,7 +31,7 @@ public class SpriteSceneObject : SceneCustomObject
 	}
 
 	public FacingDirection Facing = FacingDirection.Right;
-	private CameraMode CameraMode => Local.Pawn.Components.Get<CameraMode>();
+	private CameraMode CameraMode => Game.LocalPawn.Components.Get<CameraMode>();
 
 	private Rect SpriteViewport;
 
@@ -52,11 +53,11 @@ public class SpriteSceneObject : SceneCustomObject
 		VertexBuffer.Init( true );
 
 		SpriteViewport = _spriteArea.Area;
-		SpriteViewport.width /= _spriteArea.XSubdivisions;
-		SpriteViewport.height /= _spriteArea.YSubdivisions;
+		SpriteViewport.Width /= _spriteArea.XSubdivisions;
+		SpriteViewport.Height /= _spriteArea.YSubdivisions;
 		Update();
 		var spriteOffset = _spriteArea.SpriteOrigin * SpriteViewport.Size;
-		spriteOffset.y = SpriteViewport.height;
+		spriteOffset.y = SpriteViewport.Height;
 		var quad = SpriteViewport.WithoutPosition + -spriteOffset;
 
 		var pos = quad.Position * ((_parent.Scale / 2) + 0.5f);
@@ -81,23 +82,22 @@ public class SpriteSceneObject : SceneCustomObject
 		}
 		if ( !_parent.EnableDrawing ) return;
 
-
-		Render.Attributes.Set( "SpriteSheet", currentone.SpriteSheetTexture );
+		Attributes.Set( "SpriteSheet", currentone.SpriteSheetTexture );
 		var view = SpriteViewport;
 		view.Position = SpriteViewport.Position + new Vector2( (FramexProgress) * SpriteViewport.Size.x, (FrameyProgress) * SpriteViewport.Size.y );
 		//view.Size /= _spriteAsset.SpriteSheetTexture.Size;
-		Render.Attributes.Set( "StartUV", view.Position / currentone.SpriteSheetTexture.Size );
-		Render.Attributes.Set( "EndUV", (view.Position + view.Size) / currentone.SpriteSheetTexture.Size );
-		Render.Attributes.Set( "Facing", Facing == FacingDirection.Right ? 1f : -1f );
-		Render.Attributes.Set( "TintColor", (Vector3)TintColor );
-		Render.Attributes.Set( "TintAmount", TintAmount );
-		Render.Attributes.Set( "SpritePivot", _parent.Position + Vector3.Up * SpriteViewport.height );
+		Attributes.Set( "StartUV", view.Position / currentone.SpriteSheetTexture.Size );
+		Attributes.Set( "EndUV", (view.Position + view.Size) / currentone.SpriteSheetTexture.Size );
+		Attributes.Set( "Facing", Facing == FacingDirection.Right ? 1f : -1f );
+		Attributes.Set( "TintColor", (Vector3)TintColor );
+		Attributes.Set( "TintAmount", TintAmount );
+		Attributes.Set( "SpritePivot", _parent.Position + Vector3.Up * SpriteViewport.Height );
 
-		Render.Attributes.SetCombo( "D_HAS_NORMALS", currentone.SpriteSheetNormalTexture != null );
-		Render.Attributes.Set( "SpriteSheetNormalMap", currentone.SpriteSheetNormalTexture );
+		Attributes.SetCombo( "D_HAS_NORMALS", currentone.SpriteSheetNormalTexture != null );
+		Attributes.Set( "SpriteSheetNormalMap", currentone.SpriteSheetNormalTexture );
 
 
-		VertexBuffer.Draw( SpriteMaterial );
+		VertexBuffer.Draw( SpriteMaterial, Attributes );
 
 
 		//DebugView();
@@ -121,15 +121,15 @@ public class SpriteSceneObject : SceneCustomObject
 		switch ( _parent.Tracking )
 		{
 			case ModelSprite.TrackingMode.Billboard:
-				Rotation = Rotation.LookAt( CameraMode.Position - Local.Pawn.Position, Vector3.Up );
+				Rotation = Rotation.LookAt( Camera.Position - Game.LocalPawn.Position, Vector3.Up );
 				break;
 			case ModelSprite.TrackingMode.WorldSpace:
 				break;
 			case ModelSprite.TrackingMode.VerticalBillboard:
-				Rotation = Rotation.LookAt( CameraMode.Position.WithZ( 0 ) - Local.Pawn.Position.WithZ( 0 ), Vector3.Up );
+				Rotation = Rotation.LookAt( Camera.Position.WithZ( 0 ) - Game.LocalPawn.Position.WithZ( 0 ), Vector3.Up );
 				break;
 			case ModelSprite.TrackingMode.RotatingBillboard:
-				Rotation = Rotation.LookAt( CameraMode.Position - Position, Vector3.Up );
+				Rotation = Rotation.LookAt( Camera.Position - Position, Vector3.Up );
 				break;
 		}
 		Rotation *= RotOffset;

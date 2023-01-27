@@ -3,31 +3,51 @@ using Sandbox;
 
 namespace SpriteKit.Asset;
 
-public class AreaAsset<T> : GameResource where T : AreaInfo
+public class AreaAsset : GameResource
 {
 	public static Dictionary<string, GameResource> All = new();
+
+	public virtual void PostInGameLoad()
+	{
+
+	}
+	public virtual void PostInGameReload()
+	{
+
+	}
+
+}
+
+public class AreaAsset<T> : AreaAsset where T : AreaInfo
+{
 	public List<T> SpriteAreas { get; set; } = new();
 	[HideInEditor]
 	public Dictionary<string, T> SpriteAreasByName = new();
-
-
 	protected override void PostLoad()
 	{
-		base.PostLoad();
+
+		All[ResourcePath.ToLower().NormalizeFilename()] = this;
+		if ( !Game.InGame ) return;
+		PostInGameLoad();
+	}
+
+	public override void PostInGameLoad()
+	{
 		Log.Info( $"Loading sprite asset {ResourceName}" );
-
-
 		foreach ( var area in SpriteAreas )
 		{
 			area.LoadTextures();
 			SpriteAreasByName[area.Name.ToLower()] = area;
 		}
-
-		All[ResourcePath.ToLower().NormalizeFilename()] = this;
 	}
 	protected override void PostReload()
 	{
-		base.PostReload();
+		if ( !Game.InGame ) return;
+		PostInGameReload();
+	}
+
+	public override void PostInGameReload()
+	{
 		Log.Info( $"Reloading sprite asset {ResourceName}" );
 		foreach ( var area in SpriteAreas )
 		{

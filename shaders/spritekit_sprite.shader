@@ -127,9 +127,9 @@ PS
 	//
 	// Main
 	//
-	PixelOutput MainPs( PixelInput i )
+	float4 MainPs(PixelInput i) : SV_Target0
 	{
-		PixelOutput o;
+		float4 o;
 		if(FacingDirection == 1)
 		i.vTextureCoords.x = 1 - i.vTextureCoords.x;
 		float2 spriteRange = (spriteEndVU - spriteStartUV);
@@ -138,7 +138,7 @@ PS
 		if(Color.a <0.01f || DepthTest(i)){ 
 			discard;
 		}
-		o.vColor.a = 1;
+		o.a = 1;
 
 
 		#if D_HAS_NORMALS
@@ -147,12 +147,12 @@ PS
 			norms.x *= FacingDirection;
 			float3 N = mul(norms.xyz,g_matWorldToView);
             half3 toonLight = saturate(dot(N , g_vSunLightDir)) > 0.3 ?  g_vSunLightColor : g_vUnlitShadowColor;
-			o.vColor.rgb = Color * toonLight;
+			o.rgb = Color * toonLight;
 
 		#else
-        	o.vColor.rgb = Color;
+        	o.rgb = Color;
 		#endif
-		o.vColor.rgb = saturate(o.vColor.rgb + (Tint.rgb*TintAmount));
+		o.rgb = saturate(o.rgb + (Tint.rgb*TintAmount));
 		
 		
 		return o;

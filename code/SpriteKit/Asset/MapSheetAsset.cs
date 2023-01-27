@@ -9,32 +9,26 @@ namespace SpriteKit.Asset;
 public class MapSheetAsset : AreaAsset<MapSheetArea>
 {
 	public static Dictionary<string, MapSheetArea> BlockList = new();
-	protected override void PostLoad()
+	public override void PostInGameLoad()
 	{
-		if ( BlockList == null )
-		{
-			BlockList = new();
-		}
+		BlockList ??= new();
 
 		Log.Info( $"Loading Map asset {ResourceName}" );
 		foreach ( var area in SpriteAreas )
 		{
-			area.LoadTextures();
+			//area.LoadTextures();
 			BlockList[area.Name.ToLower()] = area;
 			Event.Run( "MapArea.Loaded", area );
 		}
 	}
-	protected override void PostReload()
+	public override void PostInGameReload()
 	{
-		if ( BlockList == null )
-		{
-			BlockList = new();
-		}
+		BlockList ??= new();
 
 		Log.Info( $"Reloading Map asset {ResourceName}" );
 		foreach ( var area in SpriteAreas )
 		{
-			area.LoadTextures();
+			//area.LoadTextures();
 			BlockList[area.Name.ToLower()] = area;
 			Event.Run( "MapArea.Loaded", area );
 		}

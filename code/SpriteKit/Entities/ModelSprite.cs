@@ -75,7 +75,7 @@ public partial class ModelSprite : Entity
 
 	public void ReloadSprite()
 	{
-		if ( IsClient ) return;
+		if ( Game.IsClient ) return;
 		if ( !string.IsNullOrEmpty( SpritePath ) )
 		{
 			SpriteAsset = SpriteAsset.Get<SpriteAsset>( SpritePath.NormalizeFilename() );
@@ -118,10 +118,10 @@ public partial class ModelSprite : Entity
 			SpriteChange();
 		}
 	}
-	[Event.Frame]
+	[Event.Client.Frame]
 	protected virtual void Think()
 	{
-		if ( IsServer ) return;
+		if ( Game.IsServer ) return;
 		if ( SpriteSceneObject.IsValid() )
 		{
 
@@ -130,13 +130,13 @@ public partial class ModelSprite : Entity
 		else
 		{
 			if ( SpriteAsset != null )
-				SpriteSceneObject = new( TargetSceneWorld.IsValid() ? TargetSceneWorld : Map.Scene, this );
+				SpriteSceneObject = new( TargetSceneWorld.IsValid() ? TargetSceneWorld : Game.SceneWorld, this );
 		}
 	}
 
 	public void SetAnimation( string Name )
 	{
-		if ( IsServer )
+		if ( Game.IsServer )
 		{
 			SetAnimClient( Name );
 		}
