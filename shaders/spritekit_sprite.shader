@@ -141,7 +141,7 @@ PS
 		o.a = 1;
 
 
-		#if D_HAS_NORMALS
+		/* #if D_HAS_NORMALS
 			float3 norms = normalize(Tex2D(g_tSpriteSheetNormalTex, uv).rgb *2 -1);
 
 			norms.x *= FacingDirection;
@@ -149,9 +149,9 @@ PS
             half3 toonLight = saturate(dot(N , g_vSunLightDir)) > 0.3 ?  g_vSunLightColor : g_vUnlitShadowColor;
 			o.rgb = Color * toonLight;
 
-		#else
+		#else */
         	o.rgb = Color;
-		#endif
+		/* #endif */
 		o.rgb = saturate(o.rgb + (Tint.rgb*TintAmount));
 		
 		
