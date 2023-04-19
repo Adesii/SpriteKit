@@ -10,7 +10,16 @@ public class SpriteAsset : AreaAsset<SpriteArea>
 {
 	public static T Get<T>( string FilePath ) where T : GameResource
 	{
-		return All[FilePath.NormalizeFilename().ToLower()] as T;
+		if ( All.TryGetValue( FilePath, out var res ) )
+		{
+			return (T)res;
+		}
+		if ( Sandbox.Internal.GlobalGameNamespace.ResourceLibrary.TryGet<T>( FilePath, out var res2 ) )
+		{
+			return res2;
+		}
+
+		return null;
 
 	}
 }

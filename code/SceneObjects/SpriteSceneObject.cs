@@ -1,7 +1,6 @@
 using Sandbox;
 using SpriteKit.Asset;
 using SpriteKit.Entities;
-using SpriteKit.Player;
 using static SpriteKit.Entities.ModelSprite;
 
 namespace SpriteKit.SceneObjects;
@@ -10,7 +9,7 @@ public class SpriteSceneObject : SceneCustomObject
 {
 	private SpriteAsset _spriteAsset => _parent?.SpriteAsset;
 	private ModelSprite _parent;
-	public Material SpriteMaterial = Material.FromShader( "code/systems/spritekit/shaders/spritekit_sprite.shader" );
+	public Material SpriteMaterial => Material.FromShader( Shader.Load( "shaders/spritekit_sprite.shader" ) );
 	private VertexBuffer VertexBuffer;
 	private SpriteArea currentone;
 	private SpriteArea _spriteArea
@@ -31,7 +30,6 @@ public class SpriteSceneObject : SceneCustomObject
 	}
 
 	public FacingDirection Facing = FacingDirection.Right;
-	private CameraMode CameraMode => Game.LocalPawn.Components.Get<CameraMode>();
 
 	private Rect SpriteViewport;
 
@@ -73,6 +71,8 @@ public class SpriteSceneObject : SceneCustomObject
 		VertexBuffer.AddQuad( v1, v2, v3, v4 );
 	}
 
+
+
 	public override void RenderSceneObject()
 	{
 		if ( !_parent.IsValid() )
@@ -95,6 +95,7 @@ public class SpriteSceneObject : SceneCustomObject
 
 		Attributes.SetCombo( "D_HAS_NORMALS", currentone.SpriteSheetNormalTexture != null );
 		Attributes.Set( "SpriteSheetNormalMap", currentone.SpriteSheetNormalTexture );
+		Graphics.GrabDepthTexture( renderAttributes: Attributes );
 
 
 		VertexBuffer.Draw( SpriteMaterial, Attributes );

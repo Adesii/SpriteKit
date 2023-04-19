@@ -1,25 +1,24 @@
 {
   "Title": "SpriteKit",
-  "Type": "game",
-  "Org": "local",
+  "Type": "library",
+  "Org": "adesi",
   "Ident": "spritekit",
+  "Tags": null,
   "Schema": 1,
   "HasAssets": true,
   "AssetsPath": "",
-  "ResourcePaths": null,
+  "ResourcePaths": [
+    ""
+  ],
   "HasCode": true,
-  "CodePath": "/code/",
-  "RootNamespace": "SpriteKit",
+  "CodePath": ".",
+  "PackageReferences": [],
+  "EditorReferences": null,
   "Metadata": {
-    "MaxPlayers": 0,
-    "MinPlayers": 0,
-    "GameNetworkType": 0,
-    "MapSelect": 0,
-    "MapList": [
-      "facepunch.construct"
-    ],
-    "RankType": 0,
-    "PerMapRanking": false,
-    "LeaderboardType": 0
+    "ProjectTemplate": null,
+    "CsProjName": "",
+    "Summary": "",
+    "Description": "",
+    "Public": true
   }
 }

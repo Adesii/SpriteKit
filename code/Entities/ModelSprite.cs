@@ -8,11 +8,8 @@ namespace SpriteKit.Entities;
 [Library( "prop_sprite" )]
 public partial class ModelSprite : Entity
 {
-	[Net]
+	[Property, Net]
 	public SpriteAsset SpriteAsset { get; set; }
-
-	[Property, FGDType( "resource:sprite" ), Net]
-	public string SpritePath { get; set; }
 
 	private SpriteSceneObject SpriteSceneObject;
 	public SpriteSceneObject SceneObject => SpriteSceneObject;
@@ -67,19 +64,19 @@ public partial class ModelSprite : Entity
 	{
 		base.Spawn();
 		Transmit = TransmitType.Always;
-		if ( !string.IsNullOrEmpty( SpritePath ) )
+		/* if ( !string.IsNullOrEmpty( SpritePath ) )
 		{
 			SpriteAsset = SpriteAsset.Get<SpriteAsset>( SpritePath.NormalizeFilename() );
-		}
+		} */
 	}
 
 	public void ReloadSprite()
 	{
 		if ( Game.IsClient ) return;
-		if ( !string.IsNullOrEmpty( SpritePath ) )
+		/* if ( !string.IsNullOrEmpty( SpritePath ) )
 		{
 			SpriteAsset = SpriteAsset.Get<SpriteAsset>( SpritePath.NormalizeFilename() );
-		}
+		} */
 	}
 	public override void ClientSpawn()
 	{

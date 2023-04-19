@@ -33,9 +33,6 @@ COMMON
 {
 	#include "common/shared.hlsl"
 
-	CreateTexture2D( g_tSpriteSheetTex )< Attribute( "SpriteSheet" );SrgbRead( true );Filter(NEAREST);AddressU( WRAP );AddressV( WRAP );>;
-	CreateTexture2D( g_tSpriteSheetNormalTex )< Attribute( "SpriteSheetNormalMap" );SrgbRead( false );Filter(NEAREST);AddressU( WRAP );AddressV( WRAP );>;
-
 	float3 Tint<Attribute("TintColor");>;
 	float TintAmount<Attribute("TintAmount");>;
 
@@ -106,6 +103,11 @@ PS
 	float3 vSpritePivot <Attribute("SpritePivot");>;
 	
     CreateTexture2D( g_tDepthBufferCopyTexture ) <AsSceneDepth; SrgbRead( false );	AddressU( CLAMP ); AddressV( CLAMP ); Filter( POINT ); >;
+
+	
+	CreateTexture2D( g_tSpriteSheetTex )< Attribute( "SpriteSheet" );SrgbRead( true );Filter(NEAREST);AddressU( WRAP );AddressV( WRAP );>;
+	CreateTexture2D( g_tSpriteSheetNormalTex )< Attribute( "SpriteSheetNormalMap" );SrgbRead( false );Filter(NEAREST);AddressU( WRAP );AddressV( WRAP );>;
+
 
 	float FetchDepth( float2 vTexCoord )
 	{

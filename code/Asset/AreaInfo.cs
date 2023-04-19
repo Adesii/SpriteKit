@@ -64,11 +64,11 @@ public class AreaInfo
 	public virtual void LoadTextures()
 	{
 		var textures = new Dictionary<string, Texture>();
-		var SpriteSheetTexture = Texture.Load( FileSystem.Mounted, SpriteSheetPath, true );
+		var SpriteSheetTexture = Texture.Load( FileSystem.Mounted, SpriteSheetPath );
 		TextureList[SpriteSheetPath] = SpriteSheetTexture;
 		if ( !string.IsNullOrEmpty( SpriteSheetAlphaPath ) )
 		{
-			var SpriteSheetAlphaTexture = Texture.Load( FileSystem.Mounted, SpriteSheetAlphaPath, true );
+			var SpriteSheetAlphaTexture = Texture.Load( FileSystem.Mounted, SpriteSheetAlphaPath );
 			TextureList[SpriteSheetAlphaPath] = SpriteSheetAlphaTexture;
 		}
 
